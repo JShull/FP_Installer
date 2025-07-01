@@ -1,0 +1,29 @@
+{
+    "name": "com.fuzzphyte.installer",
+    "version": "0.1.0",
+    "displayName": "FP Installer",
+    "description": "FP Installer is a Unity package that provides a simple way to install and manage FuzzPhyte packages.",
+    "unity": "6000.0",
+    "unityRelease": "1f8",
+    "documentationUrl": "https://github.com/jshull/FP_Installer/README.md",
+    "changelogUrl": "https://github.com/jshull/FP_Installer/CHANGELOG.md",
+    "licensesUrl": "https://github.com/jshull/FP_Installer/LICENSE.md",
+    "repository": {
+      "type": "git",
+      "url": "https://github.com/jshull/FP_Installer.git"
+    },
+    "dependencies": {
+      "com.unity.mathematics": "1.2.6"
+    },
+    "keywords": [
+      "FuzzPhyte",
+      "Utility",
+      "Installer"
+    ],
+    "author": {
+      "name": "John Shull",
+      "email": "the.john.shull@gmail.com",
+      "url": "https://github.com/jshull"
+    },
+    "type": "tool"
+  }
