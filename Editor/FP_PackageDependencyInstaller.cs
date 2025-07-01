@@ -70,6 +70,28 @@ namespace FuzzPhyte.Installer.Editor
             }
                
         }
+        /// <summary>
+        /// Update package URL
+        /// </summary>
+        /// <param name="packageGitURL"></param>
+        public static void PackageUpdateURL(string packageGitURL)
+        {
+            var request = Client.Add(packageGitURL);
+            if (request != null) 
+            {
+                installRequests.Add(request);
+                SessionState.SetBool("FP_InstalledDeps_" + packageGitURL, true);
+                IsInstalling = true;
+                if (installRequests.Count > 0)
+                {
+                    EditorApplication.update += MonitorInstallRequests;
+                }
+            }
+            else
+            {
+                Debug.LogError($"FuzzPhyte Installer] Failed to create request for {packageGitURL}. It may already be installed or the URL is invalid.");
+            }
+        }
         private static void MonitorInstallRequests()
         {
             bool allDone = true;

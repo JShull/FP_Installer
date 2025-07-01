@@ -3,6 +3,9 @@
     using UnityEditor;
     using UnityEngine;
     using System.Linq;
+    using System.IO;
+    using System.Collections.Generic;
+
     public class FP_InstallerWindow : EditorWindow
     {
         private Vector2 scrollPos;
@@ -11,7 +14,7 @@
         private static readonly Color InstallDefaultColor = Color.cyan;
 
 
-        [MenuItem("FuzzPhyte/Installer/Dependency Installer")]
+        [MenuItem("FuzzPhyte/Installer/FP Installer")]
         public static void Open()
         {
             GetWindow<FP_InstallerWindow>("FP Installer");
@@ -64,7 +67,13 @@
                     Debug.LogWarning("Enter either a valid GitHub .git URL or a FuzzPhyte package name.");
                 } 
             }
-
+            GUILayout.Space(10);
+            GUILayout.Label("🔄 Update All FuzzPhyte Packages", EditorStyles.boldLabel);
+            if(GUILayout.Button("Update FuzzPhyte Packages"))
+            {
+                CheckForPackageUpdates("com.fuzzphyte.");
+            }
+            
             GUILayout.EndVertical();
             GUI.backgroundColor = prevColor;
             GUILayout.Space(8);
@@ -80,6 +89,31 @@
             foreach (var pkg in fuzzPackages)
             {
                 FP_PackageDependencyInstaller.TryInstallDependencies(pkg.name);
+            }
+        }
+        
+        private void CheckForPackageUpdates(string packageNameConvention)
+        {
+            var projectRoot = new DirectoryInfo(Application.dataPath).Parent.FullName;
+
+            string manifestPath = Path.Combine(projectRoot, "Packages", "manifest.json");
+            if (!File.Exists(manifestPath))
+            {
+                UnityEngine.Debug.LogError("Could not find manifest.json file.");
+                return;
+            }
+            FPManifest manifest = FPManifest.LoadFromFile(manifestPath, packageNameConvention);
+            if (manifest == null)
+            {
+                UnityEngine.Debug.LogError("Null on Manifest");
+                return;
+            }
+            
+            for (int i = 0; i < manifest.dependencyUrls.Count; i++)
+            {
+                var dependency = manifest.dependencyUrls[i];
+                //UnityEngine.Debug.Log($"Fetching latest for package: {dependency}");
+                FP_PackageDependencyInstaller.PackageUpdateURL(dependency);
             }
         }
     }
