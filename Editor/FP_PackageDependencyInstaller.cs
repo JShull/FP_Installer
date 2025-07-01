@@ -12,13 +12,14 @@ namespace FuzzPhyte.Installer.Editor
     public static class FP_PackageDependencyInstaller
     {
         private static List<Request> installRequests = new();
+        public static bool IsInstalling { get; private set; } = false;
 
         public static void TryToInstallPackage(string packageGitURL)
         {
             //need the url to the git package here
             installRequests.Add(Client.Add(packageGitURL));
             SessionState.SetBool("FP_InstalledDeps_" + packageGitURL, true);
-
+            IsInstalling = true;
             if (installRequests.Count > 0)
             {
                 EditorApplication.update += MonitorInstallRequests;
@@ -58,6 +59,7 @@ namespace FuzzPhyte.Installer.Editor
             if (urls.Count > 0)
             {
                 SessionState.SetBool("FP_InstalledDeps_" + package.name, true);
+                IsInstalling = true;
             }
 
             
@@ -93,6 +95,7 @@ namespace FuzzPhyte.Installer.Editor
             {
                 installRequests.Clear();
                 EditorApplication.update -= MonitorInstallRequests;
+                IsInstalling = false;
             }
         }
 
