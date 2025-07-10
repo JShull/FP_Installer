@@ -12,6 +12,7 @@
         private string manualURL = "";
         private static readonly Color InstallActiveColor = new Color(1f, 0.9f, 0.6f);  // light yellow
         private static readonly Color InstallDefaultColor = Color.cyan;
+        private bool useSSH = false;
 
 
         [MenuItem("FuzzPhyte/Installer/FP Installer")]
@@ -55,7 +56,7 @@
 
             if (GUILayout.Button("Install"))
             {
-                if (manualURL.StartsWith("http"))
+                if (manualURL.StartsWith("http")||manualURL.StartsWith("git@"))
                 {
                     FP_PackageDependencyInstaller.TryToInstallPackage(manualURL);
                 }else if(manualURL.StartsWith("com.fuzzphyte"))
