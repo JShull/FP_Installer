@@ -12,7 +12,7 @@
         private string manualURL = "";
         private static readonly Color InstallActiveColor = new Color(1f, 0.9f, 0.6f);  // light yellow
         private static readonly Color InstallDefaultColor = Color.cyan;
-        private bool useSSH = false;
+        //private bool useSSH = false;
 
 
         [MenuItem("FuzzPhyte/Installer/FP Installer", priority = 0)]
