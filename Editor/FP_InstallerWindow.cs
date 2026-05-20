@@ -15,7 +15,7 @@
         //private bool useSSH = false;
 
 
-        [MenuItem("FuzzPhyte/Installer/FP Installer", priority = 0)]
+        [MenuItem("FuzzPhyte/Installer/FP Installer", priority = 1500)]
         public static void Open()
         {
             GetWindow<FP_InstallerWindow>("FP Installer");
